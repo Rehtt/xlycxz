@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.CookieManager;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -16,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,12 +45,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.e("tTT",new okhtp().UidToMd5(getCookie()));
         editText_p=(EditText)findViewById(R.id.login_p);
         editText_u=(EditText)findViewById(R.id.login_u);
         button_login=(Button)findViewById(R.id.login_b);
         imageView=(ImageView)findViewById(R.id.imageView);
         yzm();  //加载验证码
-        CookieStore();
+
 
 
 
@@ -113,53 +117,18 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void CookieStore(){    //操作cookie 
-        final OkHttpClient okHttpClient=new OkHttpClient();
-        final Request requestPost =new Request.Builder().url("https://login.xunlei.com/risk?cmd=report").build();
+    public  String[] getCookie(){       //通过WebView获取Cookie
+        WebView webView ;
+        webView=(WebView)findViewById(R.id.webView);
+        webView.loadUrl("http://yuancheng.xunlei.com/");
+        CookieManager cookieManager=CookieManager.getInstance();
+        String cookieStr=cookieManager.getCookie("http://yuancheng.xunlei.com/");
+        Log.e("TTTTTTTTTTT","cookie="+cookieStr);
+        String[] cookieString =cookieStr.split(";");
 
-        final HttpUrl url= HttpUrl.parse("https://login.xunlei.com/risk?cmd=report");
-
-        final OkHttpClient.Builder builder= new OkHttpClient.Builder()
-        .cookieJar(new CookieJar() {
-
-            private HashMap<String,List<Cookie>> cookieStore=new HashMap<String, List<Cookie>>();
-
-            @Override
-            public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
-                cookieStore.put(url.host(),cookies);
-                Log.e("T","8888888888888888888888");
-            }
-
-            @Override
-            public List<Cookie> loadForRequest(HttpUrl url) {
-                return null;
-            }
-
-        });
-
-        okHttpClient.newCall(requestPost).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-
-            }
-        });
-
-        Log.e("T","111111111111111");
-
-
-
-
-
+        return cookieString;
     }
-public void a(){
-        CookieStore ss=new CookieStore();
 
-    }
 
 
 }
