@@ -57,25 +57,24 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        final okhtp okhtp=new okhtp();
+
+
 
 
            button_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String url="https://login.xunlei.com/sec2login/?csrf_token="+new okhtp().UidToMd5(getCookie());
 
-                Intent intent=new Intent();
-                intent.setClass(MainActivity.this,Main2Activity.class);
-                Bundle bundle=new Bundle();
-                bundle.putString("s",okhtp.okhtp(editText_p.getText().toString(),editText_u.getText().toString()));
-                intent.putExtras(bundle);
-                startActivity(intent);
+                Log.e("rewrw", url);
+
 
             }
         });
     }
 
-    public void yzm(){      //显示验证码
+    //显示验证码
+    public void yzm(){
 
         final OkHttpClient client = new OkHttpClient();
 
@@ -117,7 +116,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public  String[] getCookie(){       //通过WebView获取Cookie
+    //通过WebView获取Cookie
+    public  String[] getCookie(){
         WebView webView ;
         webView=(WebView)findViewById(R.id.webView);
         webView.loadUrl("http://yuancheng.xunlei.com/");

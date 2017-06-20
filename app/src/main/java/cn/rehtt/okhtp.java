@@ -1,6 +1,9 @@
 package cn.rehtt;
 
+import android.util.Log;
+
 import java.io.IOException;
+import java.io.StringReader;
 import java.security.MessageDigest;
 
 import okhttp3.FormBody;
@@ -15,9 +18,9 @@ import okhttp3.Response;
 
 public class okhtp {
 //   new Thread(new)
-    public String okhtp(String p, String u){
+    public String okhtp(String p, String u,String url){
 
-        String url="https://login.xunlei.com/sec2login/?csrf_token="+UidToMd5(new MainActivity().getCookie());
+
         OkHttpClient client=new OkHttpClient();
 
 
@@ -88,5 +91,10 @@ public class okhtp {
 
 
     }
+//    public void qq(){
+//        MainActivity mainActivity=new MainActivity();
+//
+//        Log.e("ttttttttttttttttttttttt", UidToMd5(mainActivity.getCookie()));
+//    }
 
 }
